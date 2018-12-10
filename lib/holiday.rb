@@ -45,21 +45,24 @@ def all_winter_holiday_supplies(holiday_hash)
 end
 
 def all_supplies_in_holidays(holiday_hash)
-    holiday_hash.each do |season, holidays|  
-    puts "#{season.capitalize}:"             # why didnt i have to use .to_s here???
-    holidays.each do |holiday, decor|
-      puts "  #{holiday.to_s.split('_').map {|w| w.capitalize }.join(' ') }: #{decor.join(", ")}"
-    end  
+  holiday_hash.each do |season, hash|
+    puts "#{season.to_s.capitalize}:"
+      hash.each do |holiday, supplies|
+       format_holiday = holiday.to_s.split("_").collect {|word| word.capitalize}.join(" ")
+       puts "  #{format_holiday}: #{supplies.join(", ")}"
+        #binding.pry 
+      end   
   end  
 end
 
 def all_holidays_with_bbq(holiday_hash)
-  holiday_hash.map do |season, hol_name_and_supply_hash|
-    hol_name_and_supply_hash.map do |holiday, supplies|
-      holiday if supplies.include?("BBQ")
-    end
-  end.flatten.compact
-
+  holiday_hash.collect do |season, hash|
+    hash.collect do |holiday, supplies|
+      if supplies.include?("BBQ") 
+        return holiday
+      end
+    end  
+  end
 end
 
 
